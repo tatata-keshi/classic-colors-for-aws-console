@@ -116,3 +116,6 @@ load();
 chrome.storage.onChanged.addListener((_changes, area) => {
   if (area === "sync") load();
 });
+
+// CI gate test: intentionally broken
+var unusedTestValue = 1
