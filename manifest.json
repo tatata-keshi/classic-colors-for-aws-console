@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Classic Colors for AWS Console",
+  "version": "1.0.0",
+  "description": "AWSコンソールのヘッダー・リンク・プライマリボタンの色を以前の配色に戻します。拡張機能メニューから有効/無効と色を切り替えられます。",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_title": "Classic Colors for AWS Console",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://console.aws.amazon.com/*",
+        "https://*.console.aws.amazon.com/*",
+        "https://health.aws.amazon.com/*",
+        "https://console.amazonaws.cn/*",
+        "https://*.console.amazonaws.cn/*",
+        "https://console.amazonaws-us-gov.com/*",
+        "https://*.console.amazonaws-us-gov.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true,
+      "match_origin_as_fallback": true
+    }
+  ]
+}
