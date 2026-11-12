@@ -1,4 +1,4 @@
-# AWS Console Classic Colors
+# Classic Colors for AWS Console
 
 AWS マネジメントコンソールのヘッダー・リンク・プライマリボタンの色を、以前の配色風に戻す Chrome 拡張機能です。
 ツールバーのアイコンから、全体の有効/無効、パーツごとの有効/無効、色の変更ができます。

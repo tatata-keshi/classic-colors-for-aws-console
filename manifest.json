@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "AWS Console Classic Colors",
+  "name": "Classic Colors for AWS Console",
   "version": "1.0.0",
   "description": "AWSコンソールのヘッダー・リンク・プライマリボタンの色を以前の配色に戻します。拡張機能メニューから有効/無効と色を切り替えられます。",
   "permissions": ["storage"],
   "action": {
-    "default_title": "AWS Console Classic Colors",
+    "default_title": "Classic Colors for AWS Console",
     "default_popup": "popup.html"
   },
   "content_scripts": [

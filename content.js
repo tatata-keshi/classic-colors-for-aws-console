@@ -1,4 +1,4 @@
-// AWS Console Classic Colors - content script
+// Classic Colors for AWS Console - content script
 // 設定(chrome.storage.sync)に応じて <style> を差し込み/更新/削除する。
 
 const DEFAULTS = {
