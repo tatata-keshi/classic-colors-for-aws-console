@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { color-scheme: light dark; --bg:#ffffff; --fg:#16191f; --muted:#5f6b7a; --line:#e9ebed; --on:#ec7211; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16191f; --fg:#eaeded; --muted:#95a5a6; --line:#2a2e33; } }
+  body { margin:0; width:300px; background:var(--bg); color:var(--fg);
+         font:13px/1.5 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+  header { background:#232f3e; color:#fff; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; }
+  header h1 { font-size:14px; margin:0; font-weight:600; }
+  section { padding:2px 14px 0; }
+  .row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 0; border-bottom:1px solid var(--line); }
+  .row:last-child { border-bottom:0; }
+  .label { flex:1; }
+  .label small { display:block; color:var(--muted); font-size:11px; }
+  input[type=color] { width:28px; height:22px; padding:0; border:1px solid var(--line); border-radius:4px; background:none; cursor:pointer; }
+  .switch { position:relative; width:34px; height:20px; flex:none; }
+  .switch input { opacity:0; width:0; height:0; position:absolute; }
+  .switch span { position:absolute; inset:0; border-radius:10px; background:#8d99a8; transition:background .15s; cursor:pointer; }
+  .switch span::after { content:""; position:absolute; left:2px; top:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .15s; }
+  .switch input:checked + span { background:var(--on); }
+  .switch input:checked + span::after { transform:translateX(14px); }
+  .switch input:focus-visible + span { outline:2px solid #539fe5; outline-offset:2px; }
+  .parts.off { opacity:.45; pointer-events:none; }
+  @media (prefers-reduced-motion: reduce) { .switch span, .switch span::after { transition:none; } }
+</style>
+</head>
+<body>
+  <header>
+    <h1>AWS Console Classic Colors</h1>
+    <label class="switch" title="スタイル全体の有効/無効">
+      <input type="checkbox" id="enabled"><span></span>
+    </label>
+  </header>
+
+  <section class="parts" id="parts">
+    <div class="row">
+      <div class="label">ヘッダー<small>ナビゲーションバーと検索欄</small></div>
+      <input type="color" id="navColor" aria-label="ヘッダーの色">
+      <label class="switch"><input type="checkbox" id="header"><span></span></label>
+    </div>
+    <div class="row">
+      <div class="label">リンク<small>本文とサイドバーのリンク</small></div>
+      <input type="color" id="linkColor" aria-label="リンクの色">
+      <label class="switch"><input type="checkbox" id="links"><span></span></label>
+    </div>
+    <div class="row">
+      <div class="label">プライマリボタン<small>「インスタンスを起動」など</small></div>
+      <input type="color" id="primaryColor" aria-label="プライマリボタンの色">
+      <label class="switch"><input type="checkbox" id="buttons"><span></span></label>
+    </div>
+  </section>
+
+
+  <script src="popup.js"></script>
+</body>
+</html>
