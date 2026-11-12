@@ -1,0 +1,88 @@
+name: CI
+
+# fork からの PR でも安全に動くよう pull_request を使う。
+# pull_request_target は fork のコードを書き込み権限付きで実行してしまうため使わない。
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# 既定を read-only にする。書き込みが要るジョブだけ個別に昇格させる。
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Validate, lint and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # manifest の妥当性と、参照しているファイルの実在・アイコンの実寸を確認する
+      - name: Validate manifest
+        run: npm run validate
+
+      - name: Lint
+        run: npm run lint
+
+      # 配布 ZIP が作れること、中身が想定どおりであることを確認する
+      - name: Build extension zip
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: extension-zip
+          path: dist/*.zip
+          if-no-files-found: error
+
+  version:
+    name: Version bump
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Chrome ウェブストアは同じ version の再アップロードを拒否する。
+      # 配布物に変更があるのに version が据え置きだと公開作業がそこで止まるので、
+      # PR の時点で気づけるようにする。
+      - name: Require a version bump when shipped files change
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+
+          if ! git diff --name-only "$BASE_SHA"...HEAD \
+            | grep -qE '^(manifest\.json|content\.js|popup\.(html|js)|icons/.*\.png)$'; then
+            echo "配布物に変更はありません。バージョン確認をスキップします。"
+            exit 0
+          fi
+
+          OLD=$(git show "$BASE_SHA:manifest.json" | jq -r .version)
+          NEW=$(jq -r .version manifest.json)
+          echo "base: $OLD / head: $NEW"
+
+          if [ "$OLD" = "$NEW" ]; then
+            echo "::error file=manifest.json::配布物を変更したので version を $OLD から上げてください。"
+            exit 1
+          fi
+
+          HIGHEST=$(printf '%s\n%s\n' "$OLD" "$NEW" | sort -V | tail -1)
+          if [ "$HIGHEST" != "$NEW" ]; then
+            echo "::error file=manifest.json::version が $OLD から $NEW に下がっています。"
+            exit 1
+          fi
+
+          echo "✓ $OLD → $NEW"
