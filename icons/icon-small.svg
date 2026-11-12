@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img">
+  <title>Classic Colors for AWS Console (small sizes)</title>
+  <rect width="128" height="128" rx="28" fill="#232f3e"/>
+  <rect x="20" y="34" width="88" height="18" rx="9" fill="#ec7211"/>
+  <rect x="20" y="70" width="58" height="12" rx="6" fill="#6e7d90"/>
+</svg>
