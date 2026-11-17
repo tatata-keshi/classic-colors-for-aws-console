@@ -12,6 +12,11 @@ const DEFAULTS = {
 };
 
 const STYLE_ID = "aws-console-classic-colors";
+// プライマリボタン。Cloudscape のリンク(Link)も内部で awsui_button_ と
+// awsui_variant-primary_ を持つため、リンク側のクラス(先頭の awsui_link_ と
+// フォントサイズ指定)が付いているものは除外して誤爆を防ぐ。
+const PRIMARY_BUTTON = ':is(button, a)[class*="awsui_button_"][class*="awsui_variant-primary_"]' +
+  ':not([class^="awsui_link_"], [class*="awsui_font-size-"])';
 const HEADER_ID = "awsc-nav-header";
 // ヘッダー内で背景が明るい領域(ツールチップ等)に付ける目印。
 const LIGHT_ATTR = "data-acc-light";
@@ -79,23 +84,23 @@ main a:not([class*="awsui_button_"]):not([role="button"]):hover {
 }`);
 
   if (s.buttons) parts.push(`
-:is(button, a)[class*="awsui_button_"][class*="awsui_variant-primary_"] {
+${PRIMARY_BUTTON} {
   background-color: var(--acc-primary) !important;
   border-color: var(--acc-primary) !important;
   color: #ffffff !important;
 }
-:is(button, a)[class*="awsui_button_"][class*="awsui_variant-primary_"]:hover {
+${PRIMARY_BUTTON}:hover {
   background-color: var(--acc-primary-hover) !important;
   border-color: var(--acc-primary-hover) !important;
 }
-:is(button, a)[class*="awsui_button_"][class*="awsui_variant-primary_"]:active {
+${PRIMARY_BUTTON}:active {
   background-color: var(--acc-primary-active) !important;
   border-color: var(--acc-primary-active) !important;
 }
-:is(button, a)[class*="awsui_button_"][class*="awsui_variant-primary_"] * {
+${PRIMARY_BUTTON} * {
   color: #ffffff !important;
 }
-button[class*="awsui_button_"][class*="awsui_variant-primary_"]:is([class*="awsui_disabled_"], :disabled) {
+${PRIMARY_BUTTON}:is([class*="awsui_disabled_"], :disabled) {
   background-color: #e9ebed !important;
   border-color: #e9ebed !important;
   color: #9ba7b6 !important;
